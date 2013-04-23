@@ -1,0 +1,21 @@
+{
+  "manifest_version":2,
+  "name": "偶聚浏览器 (ouju browser), by Dennix",
+  "version": "0.1.0",
+  "description": "Have fun with linked browsing.",
+  "background": {
+    "scripts": ["zepto.min.js","bg.js"]
+  },
+  "browser_action": {
+    "default_title": "Link me",
+    "default_icon": "qr.png",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*","https://*/*"],
+      "css" : ["css_in_page.css"],
+      "js": ["zepto.min.js", "ui_in_page.js"]
+    }
+  ]
+}
