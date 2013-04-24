@@ -1,0 +1,36 @@
+<html>
+<head>
+    <script src="js/zepto.min.js"></script>
+    <script src="js/ontv.channel.js"></script>
+    <script>
+        //OnTV Code
+        var ch = window.PhoneChannel;
+        console.log(ch);
+        ch.pair(document.URL);
+        ch.handleMessage = function(msg){
+            console.log(msg);
+        };
+        ch.handleUnPaired = function (){console.log('Lost connection from TV');};
+        ch.handlePaired = function (){console.log('Got connection from TV');};
+        
+        $(function(){
+          $("#testBtn").on("click",function(){
+                           console.log(123);
+                           ch.send("Hello, TV");
+                           });
+          });
+    </script>
+    <style>
+        .btn{
+            background-color:gray;
+            width:100px;
+            height:30px;
+            border:solid 1px blue;
+        }
+    </style>
+</head>
+<body>
+    Test for MobileOnTV video browsing...
+    <div class="btn" id="testBtn">Test Send</div>
+</body>
+</html>

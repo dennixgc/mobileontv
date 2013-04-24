@@ -1,0 +1,82 @@
+<!DOCTYPE html> 
+<html> 
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<title>Game Concourse Mobile :: SPIN MY FRUIT!</title> 
+<script src="api/zepto.min.js"></script>
+<script src="api/ontv.channel.js"></script>
+<script>
+	//OnTV Code 
+	var ch = window.PhoneChannel; 
+	ch.pair(document.URL);
+	ch.handleMessage = user_actions;
+	ch.handleUnPaired = function (){alert('Lost connection from TV');};
+	//End OnTV Code
+	
+	//document.user.name.value = "demo"+Math.floor(Math.random()*90+10);
+	 function roll(){
+		  ch.send('roll');
+	 }
+	function bet(c){
+		  ch.send("bet:"+c);
+	}
+	
+	function userinfo(){
+		  ch.send("user:"+document.user.name.value);
+	}
+	
+	function user_actions(data){
+		  d=data.split(":");
+		  switch(d[0]){
+		    case "broadcast": broadcast(d[1]); break;
+		  };
+	}
+	function broadcast(c) {
+		  $("#show_credit").html(c);	
+	}
+	
+	var sensitivity = 8;
+	var x1 = 0, y1 = 0, z1 = 0, x2 = 0, y2 = 0, z2 = 0;
+	window.ondevicemotion=function(evt){
+		  x1 = evt.accelerationIncludingGravity.x;
+	    y1 = evt.accelerationIncludingGravity.y;
+	    z1 = evt.accelerationIncludingGravity.z;
+	}
+	
+	setInterval(function () {
+	    var change = Math.abs(x1-x2+y1-y2+z1-z2);
+	    if (change > sensitivity) {
+	  	  roll();
+	    }
+	    x2 = x1;
+	    y2 = y1;
+	    z2 = z1;
+	}, 200);
+</script>
+</head> 
+	
+<body> 
+<div data-role="header">
+	<h1>Controller</h1>
+</div><!-- /header -->
+
+<div data-role="content" data-theme="a">	
+		<h2>Hello demo39,</h2>
+  <div id="credits">You have:</div>
+  <div id="show_credit" style="font-size:30px">0</div>
+  <div>credits.</div><hr />
+  <form>
+<div data-role="fieldcontain">
+   <label for="bet-slider">Bet amount:</label>
+		<input type="range" name="slider" id="bet-slider" value="1" min="1" max="30" data-theme="e" />
+</div>
+</form>
+		<p><a onClick="roll()" data-role="button"  data-icon="star" data-theme="e">SPIN!</a></p>	
+		<p style="font:微软雅黑  20px"><a href="javascript:history.go(-1);" data-role="button" data-rel="dialog" data-transition="pop">Debug Information</a></p>
+		
+</div>
+
+</body>
+</html>
