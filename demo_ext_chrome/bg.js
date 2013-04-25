@@ -4,16 +4,21 @@ var channel;
 var Tab;
 
 var paired=false;
-var timmer_retry;
+var retry_pending=false;
+
 function initTVON(){
+    retry_pending=false;
     channel=new tvON(function(p){
                      console.log('connected with ' + p);
                      pCode=p;
                 });
     channel.setUnPairHandler(function(){
-                             console.log(timmer_retry);
+                             console.log('cut, while retry_pending =  ' + retry_pending);
                              paired=false;
-                             if (!timmer_retry) timmer_retry = setTimeout(initTVON,5000);
+                             if (!retry_pending) {
+                                 retry_pending = true;
+                                 setTimeout(initTVON,5000);
+                             }
                              });
     channel.setPairHandler(function(){
                              paired = true;
@@ -21,7 +26,8 @@ function initTVON(){
                              chrome.tabs.sendMessage(Tab.tab.id,{paired:'OK'},function(res){});
                              });
     channel.setMessageHandler(function(msg){
-                                chrome.tabs.sendMessage(Tab.tab.id,{message:msg},function(res){});
+                                var cmd=JSON.parse(msg);
+                                chrome.tabs.sendMessage(Tab.tab.id,cmd,function(res){});
                                 console.log(msg);
                               });
 }

@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "Have fun with linked browsing.",
   "background": {
-    "scripts": ["TVON.3.0.js","bg.js"]
+    "scripts": ["TVON.2.0.js","bg.js"]
   },
   "content_scripts": [
     {

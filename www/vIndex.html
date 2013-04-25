@@ -16,7 +16,7 @@
         $(function(){
           $("#testBtn").on("click",function(){
                            console.log(123);
-                           ch.send("Hello, TV");
+                           ch.send(JSON.stringify({gotoUrl:"http://tv.sohu.com/20130421/n373413783.shtml"}));
                            });
           });
     </script>

@@ -24,6 +24,7 @@ $(function(){
   });
 
 chrome.runtime.onMessage.addListener(function(req,sender,sendRes){
-                                        console.log(req);
-                                        if (req.paired) { $("#ontv_div_QR").empty(); };
-                                     });
+                                     console.log(req);
+                                     if (req.paired) { $("#ontv_div_QR").empty(); };
+                                     if (req.gotoUrl) {window.location=req.gotoUrl};
+                                    });
